@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Waitlist | ZORION AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030712;
+            --surface-color: #0B1221;
+            --surface-hover: #111C33;
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --primary-blue: #2563EB;
+            --neon-blue: #3B82F6;
+            --neon-glow: rgba(59, 130, 246, 0.4);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #F8FAFC;
+            --surface-color: #FFFFFF;
+            --surface-hover: #F1F5F9;
+            --text-main: #0F172A;
+            --text-muted: #475569;
+            --primary-blue: #1D4ED8;
+            --neon-blue: #2563EB;
+            --neon-glow: rgba(37, 99, 235, 0.25);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Background Hero */
+        .hero {
+            position: relative;
+            padding: 8rem 5% 6rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(59, 130, 246, 0.12) 0%, transparent 70%),
+                        linear-gradient(135deg, rgba(15, 23, 42, 0.6), transparent);
+            z-index: -2;
+        }
+
+        /* Mesh Background */
+        .mesh-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.06) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Custom Cursor */
+        #cursor-glow {
+            position: fixed;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, var(--neon-glow) 0%, transparent 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            mix-blend-mode: screen;
+            opacity: 0.6;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 8px; height: 8px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero-logo-img {
+            max-width: 380px;
+            width: 100%;
+            filter: drop-shadow(0 0 25px var(--neon-glow));
+            animation: float 7s ease-in-out infinite;
+        }
+
+        .hero-project-name {
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 900;
+            letter-spacing: -3px;
+            background: linear-gradient(to bottom, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 1rem 0 0.8rem;
+        }
+
+        .waitlist-badge {
+            background: rgba(59, 130, 246, 0.12);
+            color: var(--neon-blue);
+            padding: 0.6rem 1.4rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .social-tasks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            margin: 2.5rem 0 1.5rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--surface-hover);
+            border: 1px solid var(--border-color);
+            padding: 0.85rem 1.4rem;
+            border-radius: 16px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            border-color: var(--neon-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.15);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            max-width: 420px;
+            margin: 1.5rem auto;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--neon-blue), #60a5fa);
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Counter */
+        .join-counter {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+
+        .number { color: var(--neon-blue); font-weight: 700; }
+
+        /* Waitlist Form */
+        .waitlist-form {
+            background: var(--surface-color);
+            padding: 8px;
+            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            max-width: 520px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+
+        .waitlist-form input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0 1.6rem;
+            outline: none;
+            font-size: 1.05rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            box-shadow: 0 4px 20px var(--neon-glow);
+        }
+
+        .btn-primary:hover { transform: scale(1.04); }
+
+        /* Editor Panel */
+        .editor-panel {
+            margin: 6rem auto 4rem;
+            padding: 2.8rem;
+            background: var(--surface-color);
+            border: 1px solid var(--border-highlight);
+            border-radius: 32px;
+            max-width: 1000px;
+        }
+
+        /* Testimonial */
+        .testimonials {
+            margin: 5rem auto;
+            max-width: 1100px;
+            padding: 0 5%;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+
+        .testimonial-card {
+            background: var(--surface-hover);
+            padding: 1.8rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Referral */
+        .referral-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .copy-btn {
+            margin-top: 10px;
+            background: #10b981;
+            color: white;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            .social-tasks { flex-direction: column; align-items: center; }
+            .waitlist-form { flex-direction: column; padding: 10px; border-radius: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-glow"></div>
+    <div class="cursor-dot"></div>
+    <canvas id="network-canvas" style="position:fixed;top:0;left:0;z-index:-2;opacity:0.7;"></canvas>
+
+    <nav>
+        <div class="logo-container" style="display:flex;align-items:center;gap:300px;">
+            <img src="https://raw.githubusercontent.com/Efulsr/zorion-png/refs/heads/main/Picsart_26-04-30_00-12-15-119.png" style="height:1px;">
+            <span id="nav-name" style="font-weight:800;letter-spacing:2px;font-size:1.15rem;"></span>
+        </div>
+        <button class="btn" style="background:var(--surface-hover);color:var(--text-main);padding:0.5rem 1.2rem;font-size:0.8rem;" onclick="toggleTheme()">🌙</button>
+    </nav>
+
+    <section class="hero">
+        <div class="mesh-bg"></div>
+
+        <div id="hero-content-wrapper" style="text-align:center;max-width:1100px;margin:0 auto;">
+            <img src="https://raw.githubusercontent.com/Efulsr/zorion-png/refs/heads/main/Picsart_26-04-30_00-12-15-119.png" class="hero-logo-img">
+
+            <span class="waitlist-badge">EARLY ACCESS • TESTNET</span>
+            <h1 class="hero-project-name">The Door to the Future of AI Has Opened</h1>
+            <p style="font-size:1.15rem;color:var(--text-muted);max-width:620px;margin:0 auto 2rem;">
+                Get priority access to infrastructure  <span id="hero-name-inline" style="color:var(--neon-blue);font-weight:700;">ZORION</span>
+            </p>
+
+            <!-- Social Tasks -->
+            <div class="social-tasks" id="social-tasks">
+                <a href="https://x.com/ZorionHQ" target="_blank" class="social-link" onclick="completeTask('twitter')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    Follow @ZorionAi
+                </a>
+                <a href="https://t.me/ZorionOfficial" target="_blank" class="social-link" onclick="completeTask('telegram')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0C5.352 0 0 5.352 0 11.944c0 6.592 5.352 11.944 11.944 11.944 6.592 0 11.944-5.352 11.944-11.944C23.888 5.352 18.536 0 11.944 0zm5.836 8.358l-1.954 9.213c-.146.657-.538.818-1.085.511l-2.977-2.196-1.436 1.383c-.158.158-.292.292-.598.292l.213-3.036 5.525-4.992c.24-.213-.053-.332-.37-.12l-6.83 4.298-2.942-.92c-.64-.2-.653-.64.133-.946l11.5-4.43c.532-.193.998.126.814.943z"/></svg>
+                    Join Telegram
+                </a>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:8px;">Complete the task to open the form</p>
+            </div>
+
+            <!-- Counter -->
+            <div class="join-counter">
+                Already <span id="counter" class="number">24798</span> people join
+            </div>
+
+            <!-- Form -->
+            <div class="waitlist-form" id="waitlist-area">
+                <input type="email" id="email-input" placeholder="Masukkan email Anda...">
+                <button class="btn btn-primary" onclick="handleJoin()">Join Waitlist</button>
+            </div>
+            <p id="requirement-note" style="font-size:0.8rem;color:var(--text-muted);margin-top:12px;">
+                Complete the social tasks above
+            </p>
+        </div>
+    </section>
+
+    
+
+  
+
+    <footer style="padding:4rem 5%;text-align:center;color:var(--text-muted);border-top:1px solid var(--border-color);">
+        <p>&copy; 2026 <span id="footer-name">ZORION</span> Network. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        let completedTasks = 0;
+        const totalTasks = 2;
+        let userEmail = "";
+
+        function completeTask(platform) {
+            if (platform === 'twitter' || platform === 'telegram') {
+                completedTasks = Math.min(completedTasks + 1, totalTasks);
+                document.getElementById('progress-fill').style.width = (completedTasks / totalTasks * 100) + '%';
+            }
+        }
+
+        function handleJoin() {
+            const email = document.getElementById('email-input').value.trim();
+            if (!email || !email.includes('@')) {
+                alert("Enter a valid email address!");
+                return;
+            }
+
+            userEmail = email;
+            const formArea = document.getElementById('waitlist-area');
+
+            formArea.innerHTML = `
+                <div style="padding:2rem 1.5rem;text-align:center;width:100%;">
+                    <h3 style="color:#10b981;margin-bottom:8px;">✅ Registration Successful!</h3>
+                    <p style="color:var(--text-muted);margin-bottom:1.5rem;">Email <strong>${email}</strong> has been included in the priority list </p>
+                    
+                    <div class="referral-box">
+                        <p style="font-size:0.95rem;margin-bottom:8px;">Share your referral link:</p>
+                        <div style="background:rgba(0,0,0,0.3);padding:12px;border-radius:12px;font-family:monospace;font-size:0.9rem;margin-bottom:10px;" id="ref-link">
+                            https://zorion.ai/?ref=${btoa(email).slice(0,12)}
+                        </div>
+                        <button class="btn copy-btn" onclick="copyReferral()">Copy Link</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function copyReferral() {
+            const link = document.getElementById('ref-link').innerText;
+            navigator.clipboard.writeText(link).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.innerText;
+                btn.innerText = '✓ Copied!';
+                setTimeout(() => btn.innerText = originalText, 2000);
+            });
+        }
+
+        function updateName(val) {
+            const name = val.trim() || "ZORION";
+            document.getElementById('nav-name').innerText = name;
+            document.getElementById('hero-name-inline').innerText = name;
+            document.getElementById('footer-name').innerText = name;
+        }
+
+        function updateLogo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    document.getElementById('nav-logo').src = e.target.result;
+                    document.getElementById('hero-logo').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        }
+
+        // Counter Animation
+        function animateCounter() {
+            let count = 8740;
+            const target = 12458;
+            const duration = 2500;
+            const start = Date.now();
+
+            function update() {
+                const elapsed = Date.now() - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.floor(count + (target - count) * progress);
+                document.getElementById('counter').innerText = current.toLocaleString('id-ID');
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            update();
+        }
+
+        // Mouse Glow
+        document.addEventListener('mousemove', e => {
+            document.getElementById('cursor-glow').style.left = e.clientX + 'px';
+            document.getElementById('cursor-glow').style.top = e.clientY + 'px';
+            document.querySelector('.cursor-dot').style.left = e.clientX + 'px';
+            document.querySelector('.cursor-dot').style.top = e.clientY + 'px';
+        });
+
+        // Initialize
+        window.onload = () => {
+            animateCounter();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+/* Ganti ini */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* cursor: none; */   /* ← hapus atau komentari */
+}
+
+/* Tambahkan ini */
+button, a, input, .btn {
+    cursor: pointer !important;
+}
